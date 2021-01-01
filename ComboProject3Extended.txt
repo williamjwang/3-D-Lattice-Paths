@@ -1,0 +1,772 @@
+######################################################################################################
+##This is ComboProject3.txt, a Maple package to generate and investigate integer sequences counting  #
+#Lattice Walks to the diagonal                                                                       #
+#in the 3-Dimensional Manhattan Lattice for an arbitrary set of atomic steps                         #
+#It also investigates walks that stay in x>=y>=z `):                                                 #
+####It is the Maple package created by Team 3 in Dr. Z.'s Combinatorics Clsas at                     #
+#Rutgers University, Fall 2020.                                                                      #
+# Save this file as `ComboProject3.txt`, to use it                                                   #
+#Type, in a Maple session                                                                            #
+#read `ComboProj3.txt`):                                                                             #
+#and then to get a list of the functions type                                                        #
+#Help():                                                                                             #
+#For Help with any of the functions, type                                                            # 
+#Help(FunctionName)                                                                                  #
+#Team Leader: William Wang                                                                           #
+#Team members: Daniel Yang                                                                           #
+######################################################################################################
+
+
+
+print(`---------------------`):
+print(``):
+print(`Team Leader: tbd `):
+print(``):
+print(`Other Team members: tbd `):
+print(`---------------------`):
+
+print(`This is ComboProject3.txt, a Maple package that is part of Project 3 in Dr. Z.'s Combinatorics Class at Rutgers University, Fall 2020`):
+print(`Its purpose is to create a database of sequences enumerating`):
+print(`Lattice Walks to the diagonal in the 3-Dimensional Manhattan Lattice for many sets of atomic steps`):
+print(`and also counting those walks that stay in x>=y>=z `):
+print(`It also finds their recurrences, growth rates, critical exponents, asymptotics, and congruence properties`):
+print(`The final output is a list of lists arranged in LEXICGORAPHIC ORDER`):
+
+
+print(`For a list of all the functions type: Help(); `):
+print(`For Help with any of the functions, type  Help(FunctionName):`):                                                                        
+with(combinat):
+Help:=proc()
+if nargs=0 then
+print(`The available procedures are`):
+print(` AsyOpe, AsySeq, CriExp, FindRec, Info, InfoA, GrowthConst,  NuGW, NuW, SeqFromRec, SeqGW, SeqW `): 
+
+
+elif nargs=1 and args[1]=AsyOpe then
+print(`SOMETIMES GIVES THE WRONG ANSWER. USE WITH CAUTION.`):
+print(`AsyOpe(ope,n,N,k):The asymptotic to order k of a dominant solution to ope(n,N). Try:`):
+print(`AsyOpe((n+1)/(n+2)-3*(2*n+3)/(n+2)*N+N^2,n,N,4); `):
+
+elif nargs=1 and args[1]=AsySeq then
+print(`AsySeq(L,n,k): tries to fit the sequence L to be of the form  C*mu^n*n^theta*(1+c1/n+...+ck/n^k). Try:`):
+print(`L:=SeqW({[1,0,0],[0,1,0],[0,0,1],[1,1,1]]},100): AsySeq(L,n,2);`):
+
+elif nargs=1 and args[1]=CriExp then
+print(`CriExp(ope,n,N): The critical exponent of the operator ope in n and N Try`):
+print(`CriExp((n+1)/(n+2)-3*(2*n+3)/(n+2)*N+N^2,n,N):`):
+
+
+elif nargs=1 and args[1]=Findrec then
+print(`Findrec(L,n,N,MaxC): Given a list L tries to find a linear recurrence equation with`):
+print(`poly coffs. ope(n,N), where n is the discrete variable, and N is the shift operator in n  `):
+print(`of maximum COMPLEXCITY, DEGREE+ORDER<=MaxC`):
+print(`If none exists, it returns FAIL. . Try:`):
+print(`e.g. try Findrec([1,1,2,3,5,8,13,21,34,55,89],n,N,2);`):
+
+
+
+
+elif nargs=1 and args[1]=InfoA then
+print(`InfoA(A,n,N,L1,L2,k): Given a set A of atomic steps, symbols n and N, a positive integer L1, another positive integer L2,`):
+print(` and a small positive integer k, outputs a list consisting of `):
+print(` (i) itself `):
+print(` (ii) The first L1 terms of the sequence enumerating walks to [i,i,i]  `):
+print(` (iii) The guessed recurrence operator satisfied by the sequence of complexity at most L2 or FAIL `):
+print(` (iv) The growth constant `):
+print(` (v) The critical exponent `):
+print(` (vi) The estimated asymptotics to order k `):
+print(` Try: `):
+print(` InfoA({[0,0,1],[0,1,0],[1,0,0]},n,N,50,10,2); `):
+
+
+
+elif nargs=1 and args[1]=InfoGA then
+print(`InfoGA(A,n,N,L1,L2,k): Given a set A of atomic steps, symbols n and N, a positive integer L1, another positive integer L2,`):
+print(` and a small positive integer k, outputs a list consisting of `):
+print(` (i) itself `):
+print(` (ii) The first L1 terms of the sequence enumerating GOOD walks to [i,i,i]  `):
+print(` (iii) The guessed recurrence operator satisfied by the sequence of complexity at most L2 or FAIL `):
+print(` (iv) The growth constant `):
+print(` (v) The critical exponent `):
+print(` (vi) The estimated asymptotics to order k `):
+print(` Try: `):
+print(` InfoGA({[0,0,1],[0,1,0],[1,0,0]},n,N,50,10,2); `):
+
+elif nargs=1 and args[1]=GrowthConst then
+print(`GrowthConst(ope,n,N): The growth constant of sequence of integers satistying the recurrence given by the`):
+print(`shift operator, ope. Try: `):
+print(`GrowthConst(N^2-N-1,n,N);`):
+
+
+
+elif nargs=1 and args[1]=NuGW then
+print(`NuGW(Pt,A): Input a Lattice Pt pt of the form [m,n,k],  and a set A of "atomic steps" (pairs with non-negative integers)`):
+print(`(except that  [0,0,0] is not allowed) outputs the number of Good walks from [0,0,0] to Pt using these atomic steps.`):
+print(`A good walk is a walk that always stays in the region x>=y>=z . `):
+print(`Try:`):
+print(`NuGW([6,4,2],{[0,0,1],[0,1,0],[1,0,0]});`):
+
+elif nargs=1 and args[1]=NuW then
+print(`NuW(Pt,A): Input a Lattice Pt pt of the form [m,n,k],  and a set A of "atomic steps" (pairs with non-negative integers)`):
+print(`(except that  [0,0,0] is not allowed) outputs the number of walks from [0,0,0] to Pt using these atomic steps.`):
+print(`Try:`):
+print(`NuW([6,4,2],{[0,0,1],[0,1,0],[1,0,0]});`):
+
+elif nargs=1 and args[1]=SeqFromRec then
+print(`SeqFromRec(ope,n,N,Ini,K): inputs a linear recurrence operator with constant coefficients`):
+print(`in the discrete variable n and the shift operator N, and a list of intetegers Ini whose length is the order of ope`):
+print(`outputs the list of length K of the sequence that satisfies the unerlying recurrence`):
+print(`For example, try:`):
+print(`SeqFromRec(N-n-1,n,N,[1],10);`):
+
+
+elif nargs=1 and args[1]=SeqGW then
+print(`SeqGW(A,K): inputs a set of atomic walks, A, in the 3D lattice , and a positive integer K, outputs the`):
+print(`first K terms of the sequence "Number of GOOD walks from [0,0,0] to [i,i,i]" using the steps in A`):
+print(`A walk is good if it stays in x>=y>=z. `):
+print(`Try:`):
+print(`SeqGW({[1,0,0],[0,1,0],[0,0,1]},20);`):
+
+elif nargs=1 and args[1]=SeqW then
+print(`SeqW(A,K): inputs a set of atomic walks, A, in the 3D lattice , and a positive integer K, outputs the`):
+print(`first K terms of the sequence "Number of walks from [0,0,0] to [i,i,i]" using the steps in A`):
+print(`Try:`):
+print(`SeqW({[1,0,0],[0,1,0],[0,0,1]},20);`):
+
+else
+ print(`There is no Help for`):
+
+print(args):
+fi:
+
+end:
+
+ 
+
+
+##Start CODE taken from Dr. Z.'s Maple package Findrec.txt
+ezra:=proc()
+if args=NULL then
+
+print(` FindRec.txt: A Maple package for empirically guessing partial recurrence`):
+print(`equations satisfied by Discrete Functions of ONE Variable`):
+print():
+print(`For help with a specific procedure, type "ezra(procedure_name);"`):
+print(`Contains procedures:  `):
+print(`  findrec, Findrec, FindrecF`):
+print():
+
+elif nargs=1 and args[1]=findrec then
+print(`findrec(f,DEGREE,ORDER,n,N): guesses a recurrence operator annihilating`):
+print(`the sequence f of degree DEGREE and order ORDER.`):
+print(`For example, try: findrec([seq(i,i=1..10)],0,2,n,N);`):
+
+elif nargs=1 and args[1]=Findrec then
+print(`Findrec(f,n,N,MaxC): Given a list f tries to find a linear recurrence equation with`):
+print(`poly coffs. ope(n,N), where n is the discrete variable, and N is the shift operator `):
+print(`of maximum DEGREE+ORDER<=MaxC`):
+print(`e.g. try Findrec([1,1,2,3,5,8,13,21,34,55,89],n,N,2);`):
+
+elif nargs=1 and args[1]=FindrecF then
+print(`FindrecF(f,n,N): Given a function f of a single variable tries to find a linear recurrence equation with`):
+print(`poly coffs. .g. try FindrecF(i->i!,n,N);`):
+
+
+elif nargs=1 and args[1]=SeqFromRec then
+print(`SeqFromRec(ope,n,N,Ini,K): Given the first L-1`):
+print(`terms of the sequence Ini=[f(1), ..., f(L-1)]`):
+print(`satisfied by the recurrence ope(n,N)f(n)=0`):
+print(`extends it to the first K values`):
+print(`For example, try:`):
+print(`SeqFromRec(N-n-1,n,N,[1],10);`):
+
+
+fi:
+ 
+end:
+
+
+###Findrec 
+#findrec(f,DEGREE,ORDER,n,N): guesses a recurrence operator annihilating
+#the sequence f of degree DEGREE and order ORDER
+#For example, try: findrec([seq(i,i=1..10)],0,2,n,N);
+findrecVerbose:=proc(f,DEGREE,ORDER,n,N)
+local ope,var,eq,i,j,n0,kv,var1,eq1,mu,a:
+if (1+DEGREE)*(1+ORDER)+3+ORDER>nops(f) then
+ERROR(`Insufficient data for a recurrence of order`,ORDER, `degree`,DEGREE):
+fi:
+ope:=0:
+var:={}:
+ 
+for i from 0 to ORDER do
+ for j from 0 to DEGREE do
+  ope:=ope+a[i,j]*n^j*N^i:
+  var:=var union {a[i,j]}:
+ od:
+od:
+    
+eq:={}:
+ 
+for n0 from 1 to (1+DEGREE)*(1+ORDER)+2 do
+  eq1:=0:
+ 
+  for i from 0 to ORDER do
+     eq1:=eq1+subs(n=n0,coeff(ope,N,i))*op(n0+i,f):
+  od:
+ 
+   eq:= eq union {eq1}:
+od:
+ 
+var1:=solve(eq,var):
+ 
+kv:={}:
+ 
+for i from 1 to nops(var1) do
+ mu:=op(i,var1):
+ 
+if op(1,mu)=op(2,mu) then
+   kv:= kv union {op(1,mu)}:
+ fi:
+ 
+od:
+
+ope:=subs(var1,ope):
+
+if ope=0 then
+  RETURN(FAIL):
+fi:
+
+ope:={seq(coeff(expand(ope),kv[i],1),i=1..nops(kv))} minus {0}:
+
+if nops(ope)>1 then
+print(`There is some slack, there are `, nops(ope)):
+print(ope):
+RETURN(Yafe(ope[1],N)[2]):
+elif nops(ope)=1 then
+RETURN(Yafe(ope[1],N)[2]):
+else
+ RETURN(FAIL):
+fi:
+
+end:
+ 
+#findrec(f,DEGREE,ORDER,n,N): guesses a recurrence operator annihilating
+#the sequence f of degree DEGREE and order ORDER
+#For example, try: findrec([seq(i,i=1..10)],0,2,n,N);
+findrec:=proc(f,DEGREE,ORDER,n,N)
+local ope,var,eq,i,j,n0,kv,var1,eq1,mu,a:
+option remember:
+
+
+if not findrecEx(f,DEGREE,ORDER,ithprime(20)) then
+ RETURN(FAIL):
+fi:
+
+if not findrecEx(f,DEGREE,ORDER,ithprime(40)) then
+ RETURN(FAIL):
+fi:
+
+if not findrecEx(f,DEGREE,ORDER,ithprime(80)) then
+ RETURN(FAIL):
+fi:
+
+
+if (1+DEGREE)*(1+ORDER)+5+ORDER>nops(f) then
+ERROR(`Insufficient data for a recurrence of order`,ORDER, `degree`,DEGREE):
+fi:
+ope:=0:
+var:={}:
+ 
+for i from 0 to ORDER do
+ for j from 0 to DEGREE do
+  ope:=ope+a[i,j]*n^j*N^i:
+  var:=var union {a[i,j]}:
+ od:
+od:
+    
+eq:={}:
+ 
+for n0 from 1 to (1+DEGREE)*(1+ORDER)+4 do
+  eq1:=0:
+ 
+  for i from 0 to ORDER do
+     eq1:=eq1+subs(n=n0,coeff(ope,N,i))*op(n0+i,f):
+  od:
+ 
+   eq:= eq union {eq1}:
+od:
+ 
+var1:=solve(eq,var):
+ 
+kv:={}:
+ 
+for i from 1 to nops(var1) do
+ mu:=op(i,var1):
+ 
+if op(1,mu)=op(2,mu) then
+   kv:= kv union {op(1,mu)}:
+ fi:
+ 
+od:
+
+ope:=subs(var1,ope):
+
+if ope=0 then
+  RETURN(FAIL):
+fi:
+
+ope:={seq(coeff(expand(ope),kv[i],1),i=1..nops(kv))} minus {0}:
+
+if nops(ope)>1 then
+RETURN(Yafe(ope[1],N)[2]):
+elif nops(ope)=1 then
+RETURN(Yafe(ope[1],N)[2]):
+else
+ RETURN(FAIL):
+fi:
+
+end:
+ 
+
+
+Yafe:=proc(ope,N) local i,ope1,coe1,L: 
+if ope=0 then
+ RETURN(1,0):
+fi:
+ope1:=expand(ope):
+L:=degree(ope1,N):
+coe1:=coeff(ope1,N,L):
+ope1:=normal(ope1/coe1):
+ope1:=normal(ope1):
+ope1:=
+convert(
+[seq(factor(coeff(ope1,N,i))*N^i,i=ldegree(ope1,N)..degree(ope1,N))],`+`):
+factor(coe1),ope1:
+end:
+
+
+#Findrec(f,n,N,MaxC): Given a list f tries to find a linear recurrence equation with
+#poly coffs.
+#of maximum DEGREE+ORDER<=MaxC
+#e.g. try Findrec([1,1,2,3,5,8,13,21,34,55,89],n,N,2);
+Findrec:=proc(f,n,N,MaxC)
+local DEGREE, ORDER,ope,L:
+
+for L from 0 to MaxC do
+for ORDER from 0 to L do
+ DEGREE:=L-ORDER:
+if (2+DEGREE)*(1+ORDER)+4>=nops(f) then
+ print(`Insufficient data for degree`, DEGREE, `and order `,ORDER):
+ RETURN(FAIL):
+fi:
+ ope:=findrec([op(1..(2+DEGREE)*(1+ORDER)+4,f)],DEGREE,ORDER,n,N):
+     if ope<>FAIL then
+       RETURN(ope):
+      fi:
+ od:
+od:
+FAIL:
+
+end:
+
+
+
+
+
+ 
+#SeqFromRec(ope,n,N,Ini,K): Given the first L-1
+#terms of the sequence Ini=[f(1), ..., f(L-1)]
+#satisfied by the recurrence ope(n,N)f(n)=0
+#extends it to the first K values
+SeqFromRec:=proc(ope,n,N,Ini,K)
+local ope1,gu,L,n1,j1:
+ope1:=Yafe(ope,N)[2]:
+L:=degree(ope1,N):
+if nops(Ini)<>L then
+ ERROR(`Ini should be of length`, L):
+fi:
+
+ope1:=expand(subs(n=n-L,ope1)/N^L):
+
+gu:=Ini:
+
+for n1 from nops(Ini)+1 to K do
+gu:=[op(gu), -add(gu[nops(gu)+1-j1]*subs(n=n1,coeff(ope1,N,-j1)),
+j1=1..L)]:
+od:
+
+gu:
+
+end:
+ 
+#end Findrec
+
+
+with(linalg):
+
+#findrecEx(f,DEGREE,ORDER,m1): Explores whether thre
+#is a good chance that there is a recurrence of degree DEGREE
+#and order ORDER, using the prime m1
+#For example, try: findrecEx([seq(i,i=1..10)],0,2,n,N,1003);
+findrecEx:=proc(f,DEGREE,ORDER,m1)
+local ope,var,eq,i,j,n0,eq1,a,A1,
+D1,E1,Eq,Var,f1,n,N:
+option remember:
+f1:=f mod m1:
+if (1+DEGREE)*(1+ORDER)+5+ORDER>nops(f) then
+ERROR(`Insufficient data for a recurrence of order`,ORDER, `degree`,DEGREE):
+fi:
+ope:=0:
+var:={}:
+ 
+for i from 0 to ORDER do
+ for j from 0 to DEGREE do
+  ope:=ope+a[i,j]*n^j*N^i:
+  var:=var union {a[i,j]}:
+ od:
+od:
+    
+eq:={}:
+ 
+for n0 from 1 to (1+DEGREE)*(1+ORDER)+4 do
+  eq1:=0:
+ 
+  for i from 0 to ORDER do
+     eq1:=eq1+subs(n=n0,coeff(ope,N,i))*op(n0+i,f1) mod m1:
+  od:
+ 
+   eq:= eq union {eq1}:
+od:
+
+
+Eq:= convert(eq,list):
+Var:= convert(var,list):
+
+
+D1:=nops(Var):
+E1:=nops(Eq):
+if E1<D1 then
+  RETURN(true):
+fi:
+
+A1:=matrix(D1,D1):
+
+for i from 1 to D1-1 do
+for j from 1 to D1 do
+  A1[i,j]:=coeff(Eq[i],Var[j]):
+od:
+od:
+
+for j from 1 to nops(Var) do
+  A1[D1,j]:=coeff(Eq[D1],Var[j]):
+od:
+
+if det(A1) mod m1 <>0  then
+ RETURN(false):
+fi:
+
+if E1-D1>=1 then
+ for j from 1 to nops(Var) do
+  A1[D1,j]:=coeff(Eq[D1+1],Var[j]):
+ od:
+
+if det(A1) mod m1 <>0  then
+ RETURN(false):
+fi:
+fi:
+
+if E1-D1>=2 then
+ for j from 1 to nops(Var) do
+  A1[D1,j]:=coeff(Eq[D1+2],Var[j]):
+ od:
+
+if det(A1) mod m1 <>0  then
+ RETURN(false):
+fi:
+fi:
+
+true:
+
+end:
+
+#GrowthConst(ope,n,N): The growth constant of the operator ope in n and the shift operator N. Try
+#GrowthConst(N^2-N-1,n,N);
+GrowthConst:=proc(ope,n,N) local ope1,champ,i,gu,rec:
+ope1:=lcoeff(numer(ope),n):
+gu:=[solve(ope1,N)]:
+champ:=gu[1]:
+rec:=evalf(abs(gu[1])):
+
+for i from 2 to nops(gu) do
+ if evalf(abs(gu[i]))>rec then
+  champ:=gu[i]:
+ rec:=evalf(abs(gu[i])):
+ fi:
+od:
+champ:
+end:
+
+
+###END CODE taken from Dr. Z.'s Maple package Findrec.txt
+
+#NuW(Pt,A): Input a Lattice Pt pt of the form [m,n,k],  and a set A of "atomic steps" (pairs with non-negative integers)
+#(except that  [0,0,0] is not allowed) outputs the number of walks from [0,0,0] to Pt using these atomic steps.
+#Try:
+#NuW([6,4,3],{[0,0,1],[0,1,0],[1,0,0]});
+NuW:=proc(Pt,A) local a:
+option remember:
+
+if Pt[1]<0 or Pt[2]<0 or Pt[3]<0 then
+ RETURN(0):
+elif Pt=[0,0,0] then
+ RETURN(1):
+else
+add(NuW(Pt-a,A),a in A):
+fi:
+end:
+
+
+#NuGW(Pt,A): Input a Lattice Pt pt of the form [m,n,k],  and a set A of "atomic steps" (pairs with non-negative integers)
+#(except that  [0,0,0] is not allowed) outputs the number of GOOD walks (staying in x>=y>=z) from [0,0,0] to Pt using these atomic steps.
+#Try:
+#NuGW([6,4,3],{[0,0,1],[0,1,0],[1,0,0]});
+NuGW:=proc(Pt,A) local a:
+option remember:
+
+if (Pt[1]<0 or Pt[2]<0 or Pt[3]<0 or Pt[1]<Pt[2] or Pt[2]<Pt[3]) then
+ RETURN(0):
+elif Pt=[0,0,0] then
+ RETURN(1):
+else
+add(NuGW(Pt-a,A),a in A):
+fi:
+end:
+
+
+
+
+#SeqW(A,K): inputs a set of atomic walks, A, in the 3D lattice , and a positive integer K, outputs the
+#first K terms of the sequence "Number of walks from [0,0,0] to [i,i,i]" using the steps in A
+#Try:
+#SeqW({[1,0,0],[0,1,0],[0,0,1]},20);
+SeqW:=proc(A,K) local i:
+[seq(NuW([i,i,i],A),i=1..K)]:
+end:
+
+
+#SeqGW(A,K): inputs a set of atomic walks, A, in the 3D lattice , and a positive integer K, outputs the
+#first K terms of the sequence "Number of Good walks from [0,0,0] to [i,i,i]" using the steps in A
+#Try:
+#SeqGW({[1,0,0],[0,1,0],[0,0,1]},20);
+SeqGW:=proc(A,K) local i:
+[seq(NuGW([i,i,i],A),i=1..K)]:
+end:
+
+
+#CriExp(ope,n,N): The critical exponent of the operator ope in n and N Try
+#CriExp((n+1)/(n+2)-3*(2*n+3)/(n+2)*N+N^2,n,N):
+CriExp:=proc(ope,n,N) local A,ope1,x,c,t,t0,i,eq:
+
+ope1:=numer(ope):
+
+A:=numer(normal(add(subs(n=1/x,coeff(ope1,N,i))*(1+i*x)^t*c^i,i=0..degree(ope1,N)))):
+
+A:=taylor(A,x=0,4):
+eq:={coeff(A,x,0),coeff(A,x,1)}:
+t0:=solve(eq,{t,c}):
+if t0=NULL then
+RETURN(FAIL):
+fi:
+subs(t0,t):
+end:
+
+
+
+#AsyOpe(ope,n,N,k):The asymptotic to order k of a dominant solution to ope(n,N). Try:
+##AsyOpe((n+1)/(n+2)-3*(2*n+3)/(n+2)*N+N^2,n,N,4):
+AsyOpe:=proc(ope,n,N,k) local mu,t,a,i1,i,lu,ope1,A,c,x,eq,var:
+mu:=GrowthConst(ope,n,N):
+t:=CriExp(ope,n,N):
+if t=FAIL then
+ RETURN(FAIL):
+fi:
+ope1:=numer(ope):
+lu:=1+add(a[i1]/n^i1,i1=1..k):
+
+A:=numer(add(subs(n=1/x,coeff(ope1,N,i))*c^i*(1+i*x)^t*subs(n=(1+i*x),lu),i=0..degree(ope1,N))):
+A:=taylor(A,x=0,k+1):
+eq:={seq(coeff(A,x,i),i=0..k)}:
+var:={seq(a[i],i=1..k),c}:
+
+var:=solve(eq,var):
+lu:=subs(var,lu):
+mu^n*n^t*subs(var,lu):
+end:
+
+
+Digits:=40:
+
+#AsySeq(L,n,k): tries to fit the sequence L to be of the form  C*mu^n*n^theta*(1+c1/n+...+ck/n^k). Try:
+#L:=Gseq([{1},{1}],50); MyAsy(L,n,3);
+
+AsySeq:=proc(L,n,k) local gu,logC,logmu,theta,c,i,eq,var,C,mu,x,ku:
+
+if nops(L)<50 then
+ print(`List must be at least of length 50`):
+ RETURN(FAIL):
+fi:
+
+if 10+k>nops(L) then
+ print(`k must be at most`, nops(L)-10 ):
+fi:
+
+gu:=logC+logmu*n+theta*log(n)+add(c[i]/n^i,i=1..k):
+
+var:={logC,logmu,theta,seq(c[i],i=1..k)}:
+
+eq:={seq(log(L[i])-subs(n=i,gu),i=nops(L)-k-2..nops(L))}:
+
+
+var:=evalf(solve(eq,var)):
+
+
+C:=exp(subs(var,logC)):
+mu:=exp(subs(var,logmu)):
+theta:=subs(var,theta):
+
+C:=evalf(C,10):
+mu:=evalf(mu,10):
+theta:=evalf(theta,10):
+
+ku:= exp(subs(var,add(c[i]*x^i,i=1..k))):
+ku:=taylor(ku,x=0,k+1):
+ku:=add(evalf(coeff(ku,x,i),10)/n^i,i=0..k):
+evalf(C*mu^n*n^theta*ku,10):
+end:
+
+
+
+
+
+#InfoA(A,n,N,L1,L2,k): Given a set A of atomic steps, symbols n and N, a positive integer L1, another positive integer L2,
+#and a small positive integer k, outputs a list consisting of
+#(i) itself
+#(ii) The first L1 terms of the sequence enumerating walks to [i,i,i] 
+#(iii) The guessed recurrence operator satisfied by the sequence of complexity at most L2 or FAIL
+#(iv) The growth constant
+#(v) The critical exponent
+#(vi) The estimated asymptotics to order k
+#Try:
+#InfoA({[0,0,1],[0,1,0],[1,0,0]},n,N,100,10,2);
+InfoA:=proc(A,n,N,L1,L2,k) local LI,ope:
+LI:=SeqW(A,L1):
+ope:=Findrec(LI,n,N,L2):
+if ope=FAIL then
+RETURN([A,LI, FAIL,FAIL, FAIL]):
+fi:
+[A,LI,ope,evalf(GrowthConst(ope,n,N)), CriExp(ope,n,N), AsySeq(LI,n,k)]:
+end:
+
+
+#InfoGA(A,n,N,L1,L2,k): Given a set A of atomic steps, symbols n and N, a positive integer L1, another positive integer L2,
+#and a small positive integer k, outputs a list consisting of
+#(i) itself
+#(ii) The first L1 terms of the sequence enumerating GOOD walks to [i,i,i] 
+#(iii) The guessed recurrence operator satisfied by the sequence of complexity at most L2 or FAIL
+#(iv) The growth constant
+#(v) The critical exponent
+#(vi) The estimated asymptotics to order k
+#Try:
+#InfoGA({[0,0,1],[0,1,0],[1,0,0]},n,N,100,10,2);
+InfoGA:=proc(A,n,N,L1,L2,k) local LI,ope:
+LI:=SeqGW(A,L1):
+ope:=Findrec(LI,n,N,L2):
+if ope=FAIL then
+RETURN([A,LI, FAIL,FAIL, FAIL]):
+fi:
+[A,LI,ope,evalf(GrowthConst(ope,n,N)), CriExp(ope,n,N), AsySeq(LI,n,k)]:
+end:
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+#Additional Maple Procedures:
+
+
+
+#Same as SeqW, except it includes the walk from (0,0,0) to (0,0,0)
+#SeqWmodified(A,K): Given a set of atomic walks A in the 3D lattice, and a positive integer K
+#outputs the first K terms of the sequence "Number of walks from [0,0,0] to [i,i,i]" using the steps in A
+#Try:
+#SeqWmodified({[1,0,0],[0,1,0],[0,0,1]},20);
+SeqWmodified := proc(A, K) local i:
+[seq(NuW([i, i, i], A), i = 0 .. K)]:
+end:
+
+#Same as SeqGW, except it includes the walk from (0,0,0) to (0,0,0)
+#SeqGWmodified(A,K): Given a set of atomic walks A in the 3D lattice, and a positive integer K
+#outputs the first K terms of the sequence "Number of Good walks from [0,0,0] to [i,i,i]" using the steps in A
+#Try:
+#SeqGWmodified({[1,0,0],[0,1,0],[0,0,1]},20);
+SeqGWmodified := proc(A, K) local i:
+[seq(NuGW([i, i, i], A), i = 0 .. K)]:
+end:
+
+
+
+#convertToOEISstyle(ope, K): Given a recurrence operator ope (may be found using the Findrec procedure)
+#and the order of of the recurrence operator K, outputs a formula in the form that the OEIS likes.
+#Also makes writing brute force procedures to test the recurrence formula much easier.
+#Try:
+#convertToOEISstyle(  Findrec(SeqW({[0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1], [2, 2, 2]}, 50), n, N, 20)  ,  6  )
+convertToOEISstyle := proc(ope, K) local L, i:
+L := 1 - expand(subs(n = n - K, ope)/N^K):
+a(n) = add(coeff(L, N, -i)*a(n - i), i = 1 .. K):
+end:
+
+
+#CompleteInfo(A,L1,L2,compA,compB,k): Given a set A of atomic steps, and positive integers L1, L2, compA, compB, and k,
+#outputs a list consisting of
+#(i) itself
+#(ii) The first L1 terms of the sequence enumerating walks to [i,i,i]
+#(iii) The first L2 terms of the sequence enumerating GOOD walks to [i,i,i] 
+#(iv) The guessed recurrence operator satisfied by the sequence enumerating walks to [i,i,i] of complexity at most compA or FAIL
+#(v) The growth constant of the sequence enumerating walks to [i,i,i]
+#(vi) The critical exponent of the sequence enumerating walks to [i,i,i]
+#(vii) The estimated asymptotics to order k of the sequence enumerating walks to [i,i,i]
+#(viii) The guessed recurrence operator satisfied by the sequence enumerating GOOD walks to [i,i,i] of complexity at most compB or FAIL
+#(ix) The growth constant of the sequence enumerating GOOD walks to [i,i,i]
+#(x) The critical exponent of the sequence enumerating GOOD walks to [i,i,i]
+#(xi) The estimated asymptotics to order k of the sequence enumerating GOOD walks to [i,i,i]
+#Try:
+#CompleteInfo({[0,0,1],[0,1,0],[1,0,0]},50,50,10,10,2);
+CompleteInfo := proc(A, L1, L2, compA, compB, k) local ListA, ListB, ope1, ope2:
+ListA := SeqW(A, L1):
+ListB := SeqGW(A, L2):
+ope1 := Findrec(ListA, n, N, compA):
+ope2 := Findrec(ListB, n, N, compB):
+if ope1 = FAIL and ope2 = FAIL then
+  RETURN([A, ListA, ListB, FAIL, FAIL]):
+elif ope1 <> FAIL and ope2 = FAIL then
+  RETURN([A, ListA, ListB, ope1, evalf(GrowthConst(ope1, n, N)), CriExp(ope1, n, N), AsySeq(ListA, n, k), FAIL]):
+elif ope1 = FAIL and ope2 <> FAIL then
+  RETURN([A, ListA, ListB, FAIL, ope2, evalf(GrowthConst(ope2, n, N)), CriExp(ope2, n, N), AsySeq(ListB, n, k)]):
+fi:
+[A, ListA, ListB, ope1, evalf(GrowthConst(ope1, n, N)), CriExp(ope1, n, N), AsySeq(ListA, n, k), ope2, evalf(GrowthConst(ope2, n, N)), CriExp(ope2, n, N), AsySeq(ListB, n, k)]:
+end:
+
+
+#ProbGoodSeq(A,n): Given a set of atomic walks A in the 3D lattice, and a positive integer n
+#outputs the sequence of probabilities that a path from [0,0,0] to [i,i,i] using the set of steps A is good
+#Try: probGoodSeq({[1,0,0],[0,1,0],[0,0,1]},20);
+probGoodSeq := proc(A, n) local L1, L2, i:
+L1 := SeqGW(A, n):
+L2 := SeqW(A, n):
+[seq(CheckUndef(L1[i], L2[i]), i = 1 .. n)]:
+end:
+
+#Helper procedure for probGoodSeq
+CheckUndef := proc(A, B):
+if B = 0 then 'undef':
+else evalf(A/B):
+fi:
+end:
