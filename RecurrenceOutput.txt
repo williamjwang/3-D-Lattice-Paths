@@ -1,0 +1,91 @@
+#Contains the output of Findrec procedure run for the 11 lists of atomic steps we examined.
+#Can be run with ComboProject3.txt or ComboProject3Extended.txt
+
+#Note: Was not able to find a recurrence operator for many of the lists.
+
+AtomicList1 := {[0, 0, 1], [0, 0, 2], [0, 1, 0], [0, 2, 0], [1, 0, 0], [1, 1, 1], [2, 0, 0], [2, 2, 2]}:
+AtomicList2 := {[0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1], [2, 2, 2]}:
+AtomicList3 := {[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]}:
+AtomicList4 := {[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]}:
+AtomicList5 := {[0, 0, 1], [0, 0, 2], [0, 0, 3], [0, 1, 0], [0, 2, 0], [0, 3, 0], [1, 0, 0], [1, 1, 1], [2, 0, 0], [2, 2, 2], [3, 0, 0], [3, 3, 3]}:
+AtomicList6 := {[0, 1, 1], [1, 0, 1], [1, 1, 0]}:
+AtomicList7 := {[0, 1, 1], [1, 0, 1], [1, 1, 0], [1, 1, 1]}:
+AtomicList8 := {[0, 1, 1], [0, 2, 2], [1, 0, 1], [1, 1, 0], [2, 0, 2], [2, 2, 0]}:
+AtomicList9 := {[0, 1, 3], [0, 3, 1], [1, 0, 3], [1, 3, 0], [3, 0, 1], [3, 1, 0]}:
+AtomicList10 := {seq([0, 0, i], i = 1 .. 50), seq([0, i, 0], i = 1 .. 50), seq([i, 0, 0], i = 1 .. 50)}:
+AtomicList11 := {seq([0, 0, i], i = 1 .. 50), seq([0, i, 0], i = 1 .. 50), seq([i, 0, 0], i = 1 .. 50), seq([i, i, i], i = 1 .. 50)}:
+
+Findrec(SeqW(AtomicList1, 50), n, N, 20);
+  Insufficient data for degree, 6, and order , 5
+  FAIL
+
+Findrec(SeqGW(AtomicList1, 50), n, N, 20);
+  Insufficient data for degree, 6, and order , 5
+  FAIL
+
+Findrec(SeqW(AtomicList2, 50), n, N, 20);
+  -(3*n + 17)*(n + 2)^2/((3*n + 11)*(n + 6)^2) - (3*n + 17)*(9*n^3 + 87*n^2 + 269*n + 272)*N/((3*n + 14)*(3*n + 11)*(n + 6)^2) - (3*n + 16)*(3*n + 7)*N^2/((3*n + 14)*(3*n + 11)*(n + 6)^2) + (45*n^4 + 780*n^3 + 4997*n^2 + 14044*n + 14640)*N^3/((3*n + 14)*(3*n + 11)*(n + 6)^2) + (3*n + 16)*(3*n + 13)*N^4/((3*n + 14)*(3*n + 11)*(n + 6)^2) - (3*n + 16)*(30*n^2 + 310*n + 793)*N^5/((3*n + 14)*(n + 6)^2) + N^6
+
+Findrec(SeqGW(AtomicList2, 50), n, N, 20);
+  -(n - 3)*(n - 8)*(3*n + 17)/((3*n + 11)*(n + 8)*(n + 7)) - (3*n + 17)*(9*n^3 - 21*n^2 - 226*n + 224)*N/((3*n + 11)*(n + 8)*(n + 7)*(3*n + 14)) - 28*(3*n + 16)*(3*n + 7)*N^2/((3*n + 11)*(n + 8)*(n + 7)*(3*n + 14)) + (45*n^4 + 510*n^3 + 1271*n^2 - 2498*n - 8960)*N^3/((3*n + 11)*(n + 8)*(n + 7)*(3*n + 14)) + 28*(3*n + 16)*(3*n + 13)*N^4/((3*n + 11)*(n + 8)*(n + 7)*(3*n + 14)) - 2*(3*n + 16)*(15*n^2 + 155*n + 392)*N^5/((n + 8)*(n + 7)*(3*n + 14)) + N^6
+
+Findrec(SeqW(AtomicList3, 50), n, N, 20);
+  -36*(n + 2)*(n + 1)/(n + 3)^2 - 24*(n + 2)^2*N/(n + 3)^2 - (n + 2)*N^2/(n + 3) + N^3
+
+Findrec(SeqGW(AtomicList3, 100), n, N, 25);
+  Insufficient data for degree, 10, and order , 7
+  FAIL
+
+Findrec(SeqW(AtomicList4, 50), n, N, 20);
+  1
+
+Findrec(SeqGW(AtomicList4, 50), n, N, 20);
+  1
+
+Findrec(SeqW(AtomicList5, 50), n, N, 20);
+  Insufficient data for degree, 6, and order , 5
+  FAIL
+
+Findrec(SeqGW(AtomicList5, 50), n, N, 20);
+  Insufficient data for degree, 6, and order , 5
+  FAIL
+
+Findrec(SeqW(AtomicList6, 50), n, N, 20);
+  1
+
+Findrec(SeqGW(AtomicList6, 50), n, N, 20);
+  1
+
+Findrec(SeqW(AtomicList7, 50), n, N, 20)
+  -(3*n + 7)*(n + 1)^2/((3*n + 4)*(n + 3)^2) - (3*n + 5)*(24*n^2 + 88*n + 75)*N/((3*n + 4)*(n + 3)^2) - (9*n^3 + 57*n^2 + 116*n + 74)*N^2/((3*n + 4)*(n + 3)^2) + N^3
+
+Findrec(SeqGW(AtomicList7, 50), n, N, 20)
+  -n*(3*n + 7)*(n - 1)/((n + 5)*(3*n + 4)*(n + 7)) - 4*(3*n + 5)*(6*n^2 + 22*n + 21)*N/((n + 5)*(3*n + 4)*(n + 7)) - (n + 1)*(9*n^2 + 75*n + 140)*N^2/((n + 5)*(3*n + 4)*(n + 7)) + N^3
+
+Findrec(SeqW(AtomicList8, 50), n, N, 20);
+  1
+
+Findrec(SeqGW(AtomicList8, 50), n, N, 20);
+  1
+
+Findrec(SeqW({[0, 1, 3], [0, 3, 1], [1, 0, 3], [1, 3, 0], [3, 0, 1], [3, 1, 0]}, 50), n, N, 20);
+  1
+
+Findrec(SeqGW({[0, 1, 3], [0, 3, 1], [1, 0, 3], [1, 3, 0], [3, 0, 1], [3, 1, 0]}, 50), n, N, 20);
+  1
+
+Findrec(SeqW(AtomicList10, 20), n, N, 20);
+  Insufficient data for degree, 2, and order , 3
+  FAIL
+
+Findrec(SeqGW(AtomicList10, 20), n, N, 20);
+  Insufficient data for degree, 2, and order , 3
+  FAIL
+
+Findrec(SeqW(AtomicList11, 20), n, N, 20);
+  Insufficient data for degree, 2, and order , 3
+  FAIL
+
+Findrec(SeqGW(AtomicList11, 20), n, N, 20);
+  Insufficient data for degree, 2, and order , 3
+  FAIL
